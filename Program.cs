@@ -1,4 +1,5 @@
 using ETickets.Data;
+using ETickets.Data.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace ETickets
@@ -14,6 +15,7 @@ namespace ETickets
             });
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IActorServices, ActorServices>();
 
             var app = builder.Build();
 

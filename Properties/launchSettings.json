@@ -21,6 +21,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
+      "launchUrl": "Movie",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

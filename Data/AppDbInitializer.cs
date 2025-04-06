@@ -146,6 +146,18 @@ namespace ETickets.Data
                             ProducerId = 3,
                             MovieCategory = MovieCategory.Documentary
                         },
+                        new Movie(){
+                            Title = "Jonny wick",
+                            Description = "This is the Jonny wick movie description",
+                            Price = 39.50,
+                            ImageUrl = "~/images/Jonny wick.jpeg",
+                            StartDate = DateTime.Now.AddDays(-9),
+                            EndDate = DateTime.Now.AddDays(9),
+                            ReleaseDate = DateTime.Now.AddYears(-1),
+                            CinemaId = 2,
+                            ProducerId = 1,
+                            MovieCategory = MovieCategory.Action
+                        },
                         new Movie()
                         {
                             Title = "The Shawshank Redemption",
