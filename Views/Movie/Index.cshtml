@@ -1,0 +1,225 @@
+﻿@model IEnumerable<Movie>
+@{
+    ViewData["Title"] = "Now Streaming";
+}
+
+<style>
+    /* من نفس ستايلك الجديد */
+    .movies-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .movie-card {
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        background-color: #222;
+    }
+
+        .movie-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            background-color: #333;
+        }
+
+    .movie-poster {
+        width: 100%;
+        aspect-ratio: 2/3;
+        object-fit: cover;
+        transition: all 0.3s ease;
+    }
+
+    .movie-card:hover .movie-poster {
+        opacity: 0.7;
+    }
+
+    .movie-info {
+        padding: 15px;
+        color: white;
+    }
+
+    .movie-title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .movie-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.85rem;
+        color: #aaa;
+    }
+
+    .movie-rating {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        color: white;
+    }
+
+    .badge-success {
+        background-color: #28a745;
+    }
+
+    .badge-danger {
+        background-color: #dc3545;
+    }
+
+    .badge-primary {
+        background-color: #007bff;
+    }
+
+    .movie-card-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 60%);
+        opacity: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .movie-card:hover .movie-card-overlay {
+        opacity: 1;
+    }
+
+    .overlay-buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .overlay-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.2);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .overlay-btn:hover {
+            background-color: #e50914;
+        }
+
+        .badge-hov {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            display: none;
+        }
+
+        .movie-card:hover .badge-hov {
+            display: block;
+        }
+
+    .movie-card-link {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .Edit-Icon{
+        position:absolute;
+        top:10px;
+        left:15px;
+        display:none;
+    }
+
+    .movie-card:hover .Edit-Icon {
+        display: block;
+    }
+</style>
+
+<div class="container-fluid py-4 d-flex align-items-center justify-content-center">
+    <div class="movies-grid">
+        @foreach (var item in Model)
+        {
+            <div class="movie-card card-clickable" data-href="@Url.Action("Details", new { id = item.Id })">
+                <img src="@item.ImageUrl" alt="@item.Title" class="movie-poster" />
+                <a class="text-white float-left Edit-Icon" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
+                {
+                    <div class="badge badge-success badge-hov">متوفر</div>
+                }
+                else if (DateTime.Now > item.EndDate)
+                {
+                    <div class="badge badge-danger badge-hov">منتهي</div>
+                }
+                else
+                {
+                    <div class="badge badge-primary badge-hov">قريبًا</div>
+                }
+
+                <div class="movie-info">
+                    <h3 class="movie-title">@item.Title</h3>
+                    <div class="movie-meta">
+                        <span>@item.ReleaseDate.Year</span>
+                    </div>
+                </div>
+
+                <div class="movie-card-overlay">
+                    <div class="overlay-buttons">
+                        <span class="overlay-btn" title="Details">▶️</span>
+                        <a class="overlay-btn @(DateTime.Now > item.EndDate ? "disabled" : "")"
+                           asp-controller="Orders"
+                           asp-action="AddItemToShoppingCart"
+                           asp-route-id="@item.Id"
+                           title="Add to Cart">➕</a>
+                        <button class="overlay-btn" title="Like">❤️</button>
+                    </div>
+                    <div>
+                        <a class="btn btn-success text-white @(DateTime.Now > item.EndDate ? "disabled" : "")"
+                           style="width:100%; font-size:10px;"
+                           asp-controller="Orders"
+                           asp-action="AddItemToShoppingCart"
+                           asp-route-id="@item.Id">
+                            <i class="bi bi-cart-plus"></i> @item.Price.ToString("c")
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.card-clickable').forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function (e) {
+            // لو المستخدم ضغط على زرار أو لينك جوا الكارد، ما يروحش لصفحة التفاصيل
+            if (!e.target.closest('a') && !e.target.closest('button')) {
+                window.location.href = card.getAttribute('data-href');
+            }
+        });
+    });
+</script>
+
+
+

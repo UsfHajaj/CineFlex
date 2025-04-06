@@ -1,3 +1,6 @@
+using ETickets.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace ETickets
 {
     public class Program
@@ -5,7 +8,10 @@ namespace ETickets
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            builder.Services.AddDbContext<ApplicationDbContext>(options => 
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
@@ -30,6 +36,7 @@ namespace ETickets
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
+            AppDbInitializer.Seed(app);
             app.Run();
         }
     }
