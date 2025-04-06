@@ -150,6 +150,7 @@
         top:10px;
         left:15px;
         display:none;
+        z-index:100;
     }
 
     .movie-card:hover .Edit-Icon {
@@ -187,10 +188,7 @@
                 <div class="movie-card-overlay">
                     <div class="overlay-buttons">
                         <span class="overlay-btn" title="Details">▶️</span>
-                        <a class="overlay-btn @(DateTime.Now > item.EndDate ? "disabled" : "")"
-                           asp-controller="Orders"
-                           asp-action="AddItemToShoppingCart"
-                           asp-route-id="@item.Id"
+                        <a class="overlay-btn"
                            title="Add to Cart">➕</a>
                         <button class="overlay-btn" title="Like">❤️</button>
                     </div>
@@ -214,7 +212,7 @@
         card.style.cursor = 'pointer';
         card.addEventListener('click', function (e) {
             // لو المستخدم ضغط على زرار أو لينك جوا الكارد، ما يروحش لصفحة التفاصيل
-            if (!e.target.closest('a') && !e.target.closest('button')) {
+            if (!e.target.closest('a') && !e.target.closest('button')&&!e.target.closest('span')) {
                 window.location.href = card.getAttribute('data-href');
             }
         });
