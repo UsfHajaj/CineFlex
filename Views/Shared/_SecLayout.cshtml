@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CineFlex</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ETickets.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/style.css">
+
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <a class="logo" asp-action="Index" asp-controller="Movie">CineFlex</a>
+                <div class="nav-links">
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-gear"></i> اداره
+                        </a>
+                        <ul class="dropdown-menu DWNavBar" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item bg-transparent" asp-controller="Cinema" asp-action="Index"><i class="bi bi-camera-reels"></i> Cinemas</a></li>
+                            <li><a class="dropdown-item bg-transparent" asp-controller="Producer" asp-action="Index"><i class="bi bi-headset"></i> Producers</a></li>
+                            <li><a class="dropdown-item bg-transparent" asp-controller="Actor" asp-action="Index"><i class="bi bi-person-square"></i> Actors</a></li>
+                        </ul>
+                    </div>
+
+                    <a asp-action="Index" asp-controller="Movie">الرئيسية</a>
+                    <a asp-action="Index" asp-controller="Movie">الأفلام</a>
+                    <a href="#">الجديد</a>
+                    <a href="#">قائمتي</a>
+
+                    <form class="search-container" asp-action="Filter" asp-controller="Movie">
+                        <input type="text" class="search-input" placeholder="ابحث هنا...">
+                        @* <div class="search-icon">🔍</div> *@
+                        <button type="submit" class="search-icon search-btn"><i class="bi bi-search"></i></button>
+                    </form>
+                    <div class="user-profile">👤</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid rtor">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>CineFlex</h3>
+                    <p>منصة الأفلام والمسلسلات الرائدة في العالم العربي. نوفر لك محتوى ترفيهي متنوع وبجودة عالية.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-btn">f</a>
+                        <a href="#" class="social-btn">t</a>
+                        <a href="#" class="social-btn">in</a>
+                        <a href="#" class="social-btn">ig</a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>اكتشف</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">أفلام جديدة</a></li>
+                        <li><a href="#">الأكثر مشاهدة</a></li>
+                        <li><a href="#">قادم قريباً</a></li>
+                        <li><a href="#">الأفلام العربية</a></li>
+                        <li><a href="#">الأفلام الأجنبية</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>المساعدة</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">حسابي</a></li>
+                        <li><a href="#">الأسئلة الشائعة</a></li>
+                        <li><a href="#">الدعم الفني</a></li>
+                        <li><a href="#">اتصل بنا</a></li>
+                        <li><a href="#">الشروط والأحكام</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>تابعنا</h3>
+                    <p>اشترك في النشرة البريدية للحصول على آخر الأخبار والعروض.</p>
+                    <div style="margin-top: 15px;">
+                        <input type="email" placeholder="بريدك الإلكتروني" style="padding: 10px; width: 100%; margin-bottom: 10px; background: rgba(255,255,255,0.1); border: none; border-radius: 4px; color: white;">
+                        <button class="btn btn-primary" style="width: 100%;">اشترك</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                &copy; 2025 - CineFlex
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

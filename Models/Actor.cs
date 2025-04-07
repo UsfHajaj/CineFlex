@@ -2,15 +2,15 @@
 
 namespace ETickets.Models
 {
-    public class Actor
+    public class Actor:IEntityBase
     {
         [Key]
         public int Id { get; set; }
-        [Display(Name = "picture")]
+        [Display(Name = "الصوره")]
         public string ProfilePictureUrl { get; set; }
-        [Display(Name = "Full Name")]
+        [Display(Name = "الاسم الكامل")]
         public string FullName { get; set; }
-        [Display(Name = "Biography")]
+        [Display(Name = "التعريف")]
         public string Bio { get; set; }
         public List<MovieActors> MovieActors { get; set; }
     }

@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Cinema>
 @{
     ViewData["Title"] = "List Of Cinema";
+    Layout = "_FNLayout";
 }
 
 <div class="container mt-5">
@@ -8,7 +9,7 @@
         <div class="col-md-10 offset-md-1">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="text-primary fw-bold">List of Cinemas</h2>
-                <a class="btn btn-success" href="#"><i class="bi bi-plus-circle me-1"></i> Add New Cinema</a>
+                <a class="btn btn-success" asp-action="Create"><i class="bi bi-plus-circle me-1"></i> Add New Cinema</a>
             </div>
 
             <div class="table-responsive shadow rounded">
@@ -31,15 +32,17 @@
                                 <td>@Html.DisplayFor(model => i.Name)</td>
                                 <td>@Html.DisplayFor(model => i.Description)</td>
                                 <td class="text-center">
-                                    <a class="btn btn-outline-primary btn-sm" href="#">
+                                    <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@i.Id ">
                                         <i class="bi bi-pencil-square me-1"></i> Edit
                                     </a>
-                                    <a class="btn btn-outline-info btn-sm" href="#">
+                                    <a class="btn btn-outline-info btn-sm" asp-action="Details" asp-route-id="@i.Id">
                                         <i class="bi bi-eye me-1"></i> Details
                                     </a>
-                                    <a class="btn btn-danger btn-sm" href="#">
+                                    <a class="btn btn-danger btn-sm" onclick="confirmDelete(@i.Id)">
                                         <i class="bi bi-trash me-1"></i> Delete
                                     </a>
+                                    <form id="delete-form-@i.Id" asp-action="Delete" asp-route-id="@i.Id" method="post" style="display: none; direction:rtl;">
+                                    </form>
                                 </td>
                             </tr>
                         }
@@ -49,3 +52,42 @@
         </div>
     </div>
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+    function confirmDelete(id) {
+        Swal.fire({
+            title: "هل انت متاكد من انك تريد حذف السينما؟",
+            text: "لم تستطيع الترجع في هذا القرار ثانيا!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "اخذف",
+            cancelButtonText: 'الغاء',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // إجراء طلب AJAX لحذف العنصر
+                $.ajax({
+                    url: '/Cinema/Delete/' + id, // الرابط الخاص بالـ action
+                    type: 'POST',
+                    data: {
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() // تأكد من تضمين token الحماية
+                    },
+                    success: function (response) {
+                        // عند النجاح، أعد تحميل البيانات في الصفحة (أو أي تحديثات أخرى)
+                        Swal.fire("تم الحذف!", "تم حذف الممثل بنجاح.", "success").then(() => {
+                            location.reload(); // تحديث الصفحة بعد الحذف
+                        });
+                    },
+                    error: function () {
+                        Swal.fire("فشل في الحذف!", "حدث خطأ أثناء الحذف، حاول مرة أخرى.", "error");
+                    }
+                });
+            }
+        });
+    }
+</script>

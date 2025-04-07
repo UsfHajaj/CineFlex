@@ -17,7 +17,7 @@
     <header>
         <div class="container">
             <div class="navbar">
-                <a  class="logo" asp-action="Index" asp-controller="Movie">CineFlex</a>
+                <a class="logo" asp-action="Index" asp-controller="Movie">CineFlex</a>
                 <div class="nav-links">
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -35,7 +35,7 @@
                     <a asp-action="Index" asp-controller="Movie">الأفلام</a>
                     <a href="#">الجديد</a>
                     <a href="#">قائمتي</a>
-                    
+
                     <form class="search-container" asp-action="Filter" asp-controller="Movie">
                         <input type="text" class="search-input" placeholder="ابحث هنا...">
                         @* <div class="search-icon">🔍</div> *@
@@ -59,110 +59,13 @@
             </div>
         </div>
     </section>
-    <!-- Trending Section -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">الأكثر مشاهدة</h2>
-            <div class="trending-slider">
-                <div class="slider-controls">
-                    <button class="slider-btn">←</button>
-                    <button class="slider-btn">→</button>
-                </div>
-                <div class="trending-slider-container">
-                    <!-- Trending Movie 1 -->
-                    <div class="trending-card">
-                        <img src="~/images/batmans_ferrari-wallpaper-1920x1080.jpg" alt="فيلم" class="trending-img">
-                        <div class="trending-overlay">
-                            <h3 class="trending-title">عنوان الفيلم الرائج</h3>
-                            <div class="trending-info">
-                                <span>2025</span>
-                                <span>⭐ 8.5</span>
-                                <span class="badge badge-success">متوفر</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Trending Movie 2 -->
-                    <div class="trending-card">
-                        <img src="~/images/alien_romulus_science_fiction_movie-wallpaper-1920x1080.jpg" alt="فيلم" class="trending-img">
-                        <div class="trending-overlay">
-                            <h3 class="trending-title">عنوان الفيلم الرائج 2</h3>
-                            <div class="trending-info">
-                                <span>2024</span>
-                                <span>⭐ 9.0</span>
-                                <span class="badge badge-success">متوفر</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Trending Movie 3 -->
-                    <div class="trending-card">
-                        <img src="~/images/Breaking Bad fanart - Biko Tecson.jpeg" alt="فيلم" class="trending-img">
-                        <div class="trending-overlay">
-                            <h3 class="trending-title">عنوان الفيلم الرائج 3</h3>
-                            <div class="trending-info">
-                                <span>2025</span>
-                                <span>⭐ 7.8</span>
-                                <span class="badge badge-primary">قريباً</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Trending Movie 4 -->
-                    <div class="trending-card">
-                        <img src="~/images/Jonny wick.jpeg" alt="فيلم" class="trending-img">
-                        <div class="trending-overlay">
-                            <h3 class="trending-title">عنوان الفيلم الرائج 4</h3>
-                            <div class="trending-info">
-                                <span>2024</span>
-                                <span>⭐ 8.2</span>
-                                <span class="badge badge-success">متوفر</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Trending Movie 5 -->
-                    <div class="trending-card">
-                        <img src="~/images/saurons_one_ring-wallpaper-1920x1080.jpg" alt="فيلم" class="trending-img">
-                        <div class="trending-overlay">
-                            <h3 class="trending-title">عنوان الفيلم الرائج 5</h3>
-                            <div class="trending-info">
-                                <span>2024</span>
-                                <span>⭐ 7.5</span>
-                                <span class="badge badge-danger">انتهى</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Movie Categories Section -->
-    <!-- Movie Categories Section -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">استكشف الأفلام</h2>
-            <div class="category-filter">
-                <button class="category-btn active">الكل</button>
-                <button class="category-btn">أكشن</button>
-                <button class="category-btn">دراما</button>
-                <button class="category-btn">كوميديا</button>
-                <button class="category-btn">رعب</button>
-                <button class="category-btn">خيال علمي</button>
-                <button class="category-btn">مغامرات</button>
-                <button class="category-btn">رومانسي</button>
-                <button class="category-btn">وثائقي</button>
-            </div>
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
-        </div>
-    </section>
-    @* <div class="container-fluid">  *@
-    @*     <main role="main" class="pb-3">  *@
-    @*        @RenderBody()  *@
-    @*     </main> *@
-    @*  </div> *@
+    
+    
+    <div class="container-fluid rtor">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -215,10 +118,11 @@
                 &copy; 2025 - CineFlex
             </div>
         </div>
-            </footer>
+    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+

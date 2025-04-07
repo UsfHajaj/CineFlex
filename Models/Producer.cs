@@ -2,7 +2,7 @@
 
 namespace ETickets.Models
 {
-    public class Producer
+    public class Producer : IEntityBase
     {
         [Key]
         public int Id { get; set; }

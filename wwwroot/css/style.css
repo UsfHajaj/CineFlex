@@ -165,7 +165,7 @@ header {
   cursor: pointer;
   border: none;
   font-size: 16px;
-  display: flex;
+/*  display: flex;*/
   align-items: center;
   gap: 8px;
 }
@@ -599,4 +599,113 @@ footer {
 }
 .movie-card:hover .badge-hov {
   display: block;
+}
+
+.rtor{
+    direction:ltr;
+}
+.ltor{
+    direction:rtl;
+}
+
+.form-w3{
+    width:400px;
+}
+.form-w6 {
+    width: 600px;
+}
+.imagepre{
+    text-align:center;
+}
+.imagepic {
+    width: 100px;
+    height: 100px;
+    border-radius:50%;
+    background-color:var(--background-light);
+}
+table tr td{
+    max-width:450px;
+    max-height:100px;
+}
+.actor-profile-image {
+    position: relative;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}
+
+    .actor-profile-image:hover {
+        transform: scale(1.02);
+    }
+
+.overlay-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+/*    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);*/
+}
+
+.movie-card {
+    transition: all 0.3s ease;
+}
+
+    .movie-card:hover {
+        transform: translateY(-5px);
+         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3) !important; 
+    }
+
+
+
+.placeholder-image {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.not-found-container {
+    background-color: var(--background-dark);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.not-found-title {
+    font-size: 6rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.not-found-text {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.not-found-btn {
+    background-color: var(--primary-color);
+    border: none;
+    color: var(--text-color);
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+    .not-found-btn:hover {
+        background-color: #b0070f;
+    }
+
+.back-to-index {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
 }

@@ -2,8 +2,7 @@
 
 namespace ETickets.Data.Services
 {
-    public interface IActorServices :IEntityBaseRepository<Actor>
+    public interface IProducersService :IEntityBaseRepository<Producer>
     {
-       
     }
 }

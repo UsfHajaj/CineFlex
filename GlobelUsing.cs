@@ -1,0 +1,1 @@
+﻿global using ETickets.Data.Base;

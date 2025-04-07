@@ -16,7 +16,8 @@ namespace ETickets
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IActorServices, ActorServices>();
-
+            builder.Services.AddScoped<IProducersService, ProducersService>();
+            builder.Services.AddScoped<ICinemasService, CinemasService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
