@@ -1,6 +1,7 @@
 using ETickets.Data;
 using ETickets.Data.Services;
 using ETickets.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.EntityFrameworkCore;
@@ -17,8 +18,18 @@ namespace ETickets
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            builder.Services.AddIdentity<ApplicationUser,IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option =>
+            {
+                option.Password.RequireUppercase = false;
+                option.Password.RequireLowercase = false;
+                option.Password.RequiredLength = 4;
+                option.Password.RequireDigit = false;
+                option.Password.RequireNonAlphanumeric = false;
+            }).AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            });
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IActorServices, ActorServices>();
