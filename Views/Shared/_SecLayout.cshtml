@@ -36,9 +36,8 @@
                     <a href="#">الجديد</a>
                     <a href="#">قائمتي</a>
 
-                    <form class="search-container" asp-action="Filter" asp-controller="Movie">
-                        <input type="text" class="search-input" placeholder="ابحث هنا...">
-                        @* <div class="search-icon">🔍</div> *@
+                    <form class="search-container" asp-action="Filter" asp-controller="Movie" method="get">
+                        <input type="text" name="searchTerm" class="search-input" placeholder="ابحث هنا...">
                         <button type="submit" class="search-icon search-btn"><i class="bi bi-search"></i></button>
                     </form>
                     <div class="user-profile">👤</div>
@@ -46,12 +45,13 @@
             </div>
         </div>
     </header>
-
-    <div class="container-fluid rtor">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <section class="section">
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer>

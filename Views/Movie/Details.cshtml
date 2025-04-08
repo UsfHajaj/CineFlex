@@ -1,0 +1,43 @@
+﻿@model Movie
+
+@{
+    ViewData["Title"] = "Movie Details";
+    Layout = "_SecLayout";
+}
+
+<div class="movie-details">
+    <img src="@Model.ImageUrl" alt="@Model.Title" />
+
+    <div class="movie-info2">
+        <h2>@Model.Title</h2>
+
+        <p>@Model.Description</p>
+
+        <div class="meta">
+            <p><strong>Category:</strong> @Model.MovieCategory</p>
+            <p><strong>Price:</strong> $@Model.Price</p>
+            <p><strong>Start Date:</strong> @Model.StartDate.ToString("dd MMM yyyy")</p>
+            <p><strong>End Date:</strong> @Model.EndDate.ToString("dd MMM yyyy")</p>
+            <p><strong>Release Date:</strong> @Model.ReleaseDate.ToString("dd MMM yyyy")</p>
+            <p><strong>Cinema:</strong> @Model.Cinema.Name</p>
+            <p><strong>Producer:</strong> @Model.Producer.FullName</p>
+        </div>
+
+        <div>
+            <strong>Actors:</strong>
+            <ul>
+                @foreach (var actor in Model.MovieActors)
+                {
+                    <a asp-action="Details" asp-controller="Actor" asp-route-id="@actor.ActorId" >
+                    <li><img src="@actor.Actor.ProfilePictureUrl" alt="@actor.Actor.FullName" /></li>
+                    </a>
+                }
+            </ul>
+        </div>
+
+        <div class="movie-buttons">
+            <a class="btn btn-primary" asp-controller="Orders" asp-action="AddToCart" asp-route-id="@Model.Id">Add to Cart</a>
+            <a class="btn btn-secondary" asp-controller="Orders" asp-action="OrderNow" asp-route-id="@Model.Id">Order Now</a>
+        </div>
+    </div>
+</div>

@@ -5,10 +5,11 @@
 }
 
 
+@await Html.PartialAsync("_CreateItem", "Movie")
     <div class="movies-grid">
         @foreach (var item in Model)
         {
-            <div class="movie-card card-clickable" data-href="@Url.Action("Details", new { id = item.Id })">
+        <div class="movie-card card-clickable" data-href="@Url.Action("Details", new { id = item.Id })">
                 <img src="@item.ImageUrl" alt="@item.Title" class="movie-poster" />
                 <a class="text-white float-left Edit-Icon" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
                 @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
@@ -26,16 +27,21 @@
 
                 <div class="movie-info">
                     <h3 class="movie-title">@item.Title</h3>
+                <div class="movie-meta">
+                <span class="d-block">@item.Cinema.Name</span>
+                </div>
                     <div class="movie-meta">
-                        <span>@item.ReleaseDate.Year</span>
+                    
+                    <span >@item.ReleaseDate.Year</span>
                     </div>
+                    
                 </div>
 
                 <div class="movie-card-overlay">
                     <div class="overlay-buttons">
-                        <span class="overlay-btn" title="Details">▶️</span>
+                    <a class="overlay-btn" title="Details" asp-action="Details" asp-route-id="@item.Id">▶️</a>
                         <a class="overlay-btn"
-                           title="Add to Cart">➕</a>
+                           title="Add to Cart" >➕</a>
                         <button class="overlay-btn" title="Like">❤️</button>
                     </div>
                     <div>

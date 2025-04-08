@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Movie>
+@{
+    ViewData["Title"] = "All Movies";
+    Layout = "_SecLayout";
+}
+
+
+@* @await Html.PartialAsync("_CreateItem", "Movie") *@
+<div class="section">
+    <p>
+        <h2 class="section-title"> نتائج البحث عن @ViewData["searchTerm"]</h2>
+    </p>
+</div>
+<div class="movies-grid">
+    @foreach (var item in Model)
+    {
+        <div class="movie-card card-clickable" data-href="@Url.Action("Details", new { id = item.Id })">
+            <img src="@item.ImageUrl" alt="@item.Title" class="movie-poster" />
+            <a class="text-white float-left Edit-Icon" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+            @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
+            {
+                <div class="badge badge-success badge-hov">متوفر</div>
+            }
+            else if (DateTime.Now > item.EndDate)
+            {
+                <div class="badge badge-danger badge-hov">منتهي</div>
+            }
+            else
+            {
+                <div class="badge badge-primary badge-hov">قريبًا</div>
+            }
+
+            <div class="movie-info">
+                <h3 class="movie-title">@item.Title</h3>
+                <div class="movie-meta">
+                    <span class="d-block">@item.Cinema.Name</span>
+                </div>
+                <div class="movie-meta">
+
+                    <span>@item.ReleaseDate.Year</span>
+                </div>
+
+            </div>
+
+            <div class="movie-card-overlay">
+                <div class="overlay-buttons">
+                    <a class="overlay-btn" title="Details" asp-action="Details" asp-route-id="@item.Id">▶️</a>
+                    <a class="overlay-btn"
+                       title="Add to Cart">➕</a>
+                    <button class="overlay-btn" title="Like">❤️</button>
+                </div>
+                <div>
+                    <a class="btn btn-success text-white @(DateTime.Now > item.EndDate ? "disabled" : "")"
+                       style="width:100%; font-size:10px;"
+                       asp-controller="Orders"
+                       asp-action="AddItemToShoppingCart"
+                       asp-route-id="@item.Id">
+                        <i class="bi bi-cart-plus"></i> @item.Price.ToString("c")
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script>
+    document.querySelectorAll('.card-clickable').forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function (e) {
+            // لو المستخدم ضغط على زرار أو لينك جوا الكارد، ما يروحش لصفحة التفاصيل
+            if (!e.target.closest('a') && !e.target.closest('button')&&!e.target.closest('span')) {
+                window.location.href = card.getAttribute('data-href');
+            }
+        });
+    });
+</script>

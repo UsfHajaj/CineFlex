@@ -36,9 +36,8 @@
                     <a href="#">الجديد</a>
                     <a href="#">قائمتي</a>
                     
-                    <form class="search-container" asp-action="Filter" asp-controller="Movie">
-                        <input type="text" class="search-input" placeholder="ابحث هنا...">
-                        @* <div class="search-icon">🔍</div> *@
+                    <form class="search-container" asp-action="Filter" asp-controller="Movie" method="get">
+                        <input type="text" name="searchTerm" class="search-input" placeholder="ابحث هنا...">
                         <button type="submit" class="search-icon search-btn"><i class="bi bi-search"></i></button>
                     </form>
                     <div class="user-profile">👤</div>
@@ -143,15 +142,13 @@
         <div class="container">
             <h2 class="section-title">استكشف الأفلام</h2>
             <div class="category-filter">
-                <button class="category-btn active">الكل</button>
-                <button class="category-btn">أكشن</button>
-                <button class="category-btn">دراما</button>
-                <button class="category-btn">كوميديا</button>
-                <button class="category-btn">رعب</button>
-                <button class="category-btn">خيال علمي</button>
-                <button class="category-btn">مغامرات</button>
-                <button class="category-btn">رومانسي</button>
-                <button class="category-btn">وثائقي</button>
+                <a class="category-btn @(ViewBag.SelectedCategory == null ? "active" : "")" asp-action="Index" asp-route-category="">الكل</a>
+                @foreach (var category in Enum.GetValues(typeof(MovieCategory)))
+                {
+                    <a class="category-btn @(ViewBag.SelectedCategory?.ToString() == category.ToString() ? "active" : "")"
+                       asp-action="Index"
+                       asp-route-category="@category">@category.ToString()</a>
+                }
             </div>
             <main role="main" class="pb-3">
                 @RenderBody()

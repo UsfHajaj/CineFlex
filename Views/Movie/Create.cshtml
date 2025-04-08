@@ -1,0 +1,115 @@
+﻿@model MovieVM
+@{
+    ViewData["Title"] = "أضافه فيلم جديد";
+    Layout = "_SecLayout";
+}
+
+<div class="row text align-content-center justify-content-center">
+    <div class="col-md-10 ltor">
+        <h4 class="section-title">أضافه فيلم جديد</h4>
+
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <!-- Preview Image -->
+                    <div class="form-group imagepre">
+                        <img id="PosterPreview" class="imagepic" />
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ImageURL" class="control-label">رابط الصورة</label>
+                        <input asp-for="ImageURL" class="form-control" />
+                        <span asp-validation-for="ImageURL" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label">عنوان الفيلم</label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label">الوصف</label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label">السعر</label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="StartDate" class="control-label">تاريخ البداية</label>
+                        <input asp-for="StartDate" class="form-control" type="date" />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="EndDate" class="control-label">تاريخ الانتهاء</label>
+                        <input asp-for="EndDate" class="form-control" type="date" />
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ReleaseDate" class="control-label">تاريخ العرض</label>
+                        <input asp-for="ReleaseDate" class="form-control" type="date" />
+                        <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="MovieCategory" class="control-label">التصنيف</label>
+                        <select asp-for="MovieCategory" class="form-control" asp-items="Html.GetEnumSelectList<MovieCategory>()"></select>
+                        <span asp-validation-for="MovieCategory" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="CinemaID" class="control-label">دور السينما</label>
+                        <select asp-for="CinemaID" class="form-control" asp-items="ViewBag.Cinemas"></select>
+                        <span asp-validation-for="CinemaID" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ProdcerID" class="control-label">المنتج</label>
+                        <select asp-for="ProdcerID" class="form-control" asp-items="ViewBag.Producers"></select>
+                        <span asp-validation-for="ProdcerID" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ActorIDs" class="control-label">الممثلين</label>
+                        <select asp-for="ActorIDs" class="form-control" asp-items="ViewBag.Actors" multiple></select>
+                        <span asp-validation-for="ActorIDs" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group pt-3">
+                        <input type="submit" value="أضف الفيلم" class="btn btn-success float-right" />
+                        <a class="btn btn-primary" asp-action="Index">عرض الكل</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var preview = document.getElementById('PosterPreview');
+            preview.src = $("#ImageURL").val();
+        });
+
+        $("#ImageURL").on("change", function () {
+            var preview = document.getElementById('PosterPreview');
+            preview.src = $(this).val();
+        });
+    </script>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
