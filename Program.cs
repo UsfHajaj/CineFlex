@@ -1,5 +1,8 @@
 using ETickets.Data;
 using ETickets.Data.Services;
+using ETickets.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.EntityFrameworkCore;
 
 namespace ETickets
@@ -13,6 +16,9 @@ namespace ETickets
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            builder.Services.AddIdentity<ApplicationUser,IdentityUser>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IActorServices, ActorServices>();
@@ -32,7 +38,7 @@ namespace ETickets
 
             app.UseHttpsRedirection();
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapStaticAssets();
