@@ -62,6 +62,7 @@ To get started with the CineFlex Movie Booking System, follow these steps:
 
 ![Image 1](Images/1.png)
 ![Image 2](Images/2.png)
+![Image 10](Images/10.png)
 ![Image 3](Images/3.png)
 ![Image 4](Images/4.png)
 ![Image 5](Images/5.png)
@@ -69,7 +70,6 @@ To get started with the CineFlex Movie Booking System, follow these steps:
 ![Image 7](Images/7.png)
 ![Image 8](Images/8.png)
 ![Image 9](Images/9.png)
-![Image 10](Images/10.png)
 ![Image 11](Images/11.png)
 ![Image 12](Images/12.png)
 ![Image 13](Images/13.png)
