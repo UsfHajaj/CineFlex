@@ -1,6 +1,8 @@
 ﻿using ETickets.Data;
 using ETickets.Data.Services;
+using ETickets.Data.Static;
 using ETickets.Data.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,7 @@ namespace ETickets.Controllers
         {
             _service = service;
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Index(MovieCategory? category)
         {
             var movies = await _service.GetAllAsync(m=>m.Cinema);
@@ -29,6 +32,7 @@ namespace ETickets.Controllers
             }
             return View("Index", movies);
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var movie=await _service.GetMovieByIdAsync(id);
@@ -38,7 +42,7 @@ namespace ETickets.Controllers
             }
             return View(movie);
         }
-
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Create()
         {
             var movieDropDownValue = await _service.GetMovieDropDownsValues();
@@ -49,6 +53,7 @@ namespace ETickets.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Create(MovieVM movieVM)
         {
             if (!ModelState.IsValid)
@@ -62,6 +67,7 @@ namespace ETickets.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(int id)
         {
             var movie = await _service.GetMovieByIdAsync(id);
@@ -89,6 +95,7 @@ namespace ETickets.Controllers
             return View(response);
         }
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(int id,MovieVM movieVM)
         {
             if (id!=movieVM.ID)
@@ -105,7 +112,7 @@ namespace ETickets.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
+        [AllowAnonymous]
         public async Task<IActionResult> Filter(string searchTerm)
         {
             var movies = await _service.GetAllAsync(m => m.Cinema);

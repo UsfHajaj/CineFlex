@@ -4,14 +4,19 @@
     Layout = "_MyLayout";
 }
 
-
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
 @await Html.PartialAsync("_CreateItem", "Movie")
+}
     <div class="movies-grid">
         @foreach (var item in Model)
         {
         <div class="movie-card card-clickable" data-href="@Url.Action("Details", new { id = item.Id })">
                 <img src="@item.ImageUrl" alt="@item.Title" class="movie-poster" />
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
                 <a class="text-white float-left Edit-Icon" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+            }
                 @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
                 {
                     <div class="badge badge-success badge-hov">متوفر</div>
@@ -41,15 +46,18 @@
                     <div class="overlay-buttons">
                     <a class="overlay-btn" title="Details" asp-action="Details" asp-route-id="@item.Id">▶️</a>
                         <a class="overlay-btn"
+                       asp-controller="Orders" 
+                       asp-action="AddItemToShoppingCart"
+                       asp-route-id="@item.Id"
                            title="Add to Cart" >➕</a>
                         <button class="overlay-btn" title="Like">❤️</button>
                     </div>
                     <div>
                         <a class="btn btn-success text-white @(DateTime.Now > item.EndDate ? "disabled" : "")"
                            style="width:100%; font-size:10px;"
-                           asp-controller="Orders"
-                           asp-action="AddItemToShoppingCart"
-                           asp-route-id="@item.Id">
+                            asp-controller="Orders"
+                            asp-action="AddItemToShoppingCart"
+                            asp-route-id="@item.Id">
                             <i class="bi bi-cart-plus"></i> @item.Price.ToString("c")
                         </a>
                     </div>

@@ -1,0 +1,36 @@
+﻿@model LoginVM
+<!-- Login Form -->
+<div id="login-form" class="hslhx-tab-content active">
+    <form asp-action="Login" asp-controller="Account" method="post">
+        <div class="hslhx-form-group">
+            <label asp-for="EmailAdress">البريد الإلكتروني</label>
+            <input asp-for="EmailAdress" class="hslhx-form-control" placeholder="أدخل بريدك الإلكتروني">
+            <span asp-validation-for="EmailAdress" class="text-danger"></span>
+        </div>
+        <div class="hslhx-form-group">
+            <label asp-for="Password">كلمة المرور</label>
+            <div class="hslhx-password-field">
+                <input asp-for="Password" class="hslhx-form-control" id="login-password" placeholder="أدخل كلمة المرور">
+                <button type="button" class="hslhx-toggle-password" onclick="togglePassword('login-password')">👁️</button>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="hslhx-form-check">
+            <input asp-for="RememberMe" class="hslhx-form-check-input">
+            <label asp-for="RememberMe">تذكرني</label>
+        </div>
+        <a href="#" class="hslhx-forgot-password">نسيت كلمة المرور؟</a>
+        <button type="submit" class="hslhx-btn hslhx-btn-primary">تسجيل الدخول</button>
+    </form>
+
+    <div class="hslhx-social-login">
+        <p>أو تسجيل الدخول عبر</p>
+        <div class="hslhx-social-buttons">
+            <a href="#" class="hslhx-social-btn">G</a>
+            <a href="#" class="hslhx-social-btn">f</a>
+            <a href="#" class="hslhx-social-btn">t</a>
+        </div>
+    </div>
+
+    <p class="hslhx-form-note">ليس لديك حساب؟ <a href="#" onclick="switchTab('register')">إنشاء حساب جديد</a></p>
+</div>

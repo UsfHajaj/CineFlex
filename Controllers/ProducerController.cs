@@ -1,7 +1,9 @@
 ﻿using ETickets.Data;
 using ETickets.Data.DTOs;
 using ETickets.Data.Services;
+using ETickets.Data.Static;
 using ETickets.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -15,16 +17,19 @@ namespace ETickets.Controllers
         {
             _service = service;
         }
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Index()
         {
             var Producers = await _service.GetAllAsync();
             return View(Producers);
         }
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Create(ProducerDto producerDto)
         {
             if (!ModelState.IsValid)
@@ -41,6 +46,7 @@ namespace ETickets.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var producer=await _service.GetByIdAsync(id);
@@ -50,6 +56,7 @@ namespace ETickets.Controllers
             }
             return View(producer);
         }
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(int id)
         {
             var producer = await _service.GetByIdAsync(id);
@@ -60,6 +67,7 @@ namespace ETickets.Controllers
             return View(producer);
         }
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(int id,ProducerDto producerDto)
         {
             if (!ModelState.IsValid)
@@ -79,6 +87,7 @@ namespace ETickets.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Delete(int id)
         {
             var producer = await _service.GetByIdAsync(id);

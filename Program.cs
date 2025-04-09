@@ -1,4 +1,5 @@
 using ETickets.Data;
+using ETickets.Data.Cart;
 using ETickets.Data.Services;
 using ETickets.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -13,6 +14,10 @@ namespace ETickets
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddSession();
+
+            builder.Services.AddDistributedMemoryCache();
+
             builder.Services.AddDbContext<ApplicationDbContext>(options => 
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -36,6 +41,10 @@ namespace ETickets
             builder.Services.AddScoped<IProducersService, ProducersService>();
             builder.Services.AddScoped<ICinemasService, CinemasService>();
             builder.Services.AddScoped<IMoviesService, MoviesService>();
+            builder.Services.AddScoped<IOrderService, OrdersService>();
+
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            builder.Services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
 
             var app = builder.Build();
 
@@ -49,6 +58,7 @@ namespace ETickets
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -23,90 +23,15 @@
                 <div class="hslhx-tab active" onclick="switchTab('login')">تسجيل الدخول</div>
                 <div class="hslhx-tab" onclick="switchTab('register')">حساب جديد</div>
             </div>
-
-            @* <!-- Login Form --> *@
-            @* <div id="login-form" class="hslhx-tab-content active"> *@
-            @*         <form asp-action="Login" asp-controller="Account" method="post"> *@
-            @*         <div class="hslhx-form-group"> *@
-            @*             <label asp-for="Login.EmailAdress">البريد الإلكتروني</label> *@
-            @*                 <input asp-for="Login.EmailAdress"  class="hslhx-form-control" placeholder="أدخل بريدك الإلكتروني"> *@
-            @*                 <span asp-validation-for="Login.EmailAdress" class="text-danger"></span> *@
-            @*         </div> *@
-            @*         <div class="hslhx-form-group"> *@
-            @*             <label asp-for="Login.Password">كلمة المرور</label> *@
-            @*             <div class="hslhx-password-field"> *@
-            @*                     <input asp-for="Login.Password"  class="hslhx-form-control" id="login-password" placeholder="أدخل كلمة المرور"> *@
-            @*                 <button  type="button" class="hslhx-toggle-password" onclick="togglePassword('login-password')">👁️</button> *@
-            @*                 <span asp-validation-for="Login.Password" class="text-danger"></span> *@
-            @*             </div> *@
-            @*         </div> *@
-            @*         <div class="hslhx-form-check"> *@
-            @*             <input type="checkbox" id="remember-me" class="hslhx-form-check-input"> *@
-            @*             <label for="remember-me">تذكرني</label> *@
-            @*         </div> *@
-            @*         <a href="#" class="hslhx-forgot-password">نسيت كلمة المرور؟</a> *@
-            @*         <button type="submit" class="hslhx-btn hslhx-btn-primary">تسجيل الدخول</button> *@
-            @*     </form> *@
-
-            @*     <div class="hslhx-social-login"> *@
-            @*         <p>أو تسجيل الدخول عبر</p> *@
-            @*         <div class="hslhx-social-buttons"> *@
-            @*             <a href="#" class="hslhx-social-btn">G</a> *@
-            @*             <a href="#" class="hslhx-social-btn">f</a> *@
-            @*             <a href="#" class="hslhx-social-btn">t</a> *@
-            @*         </div> *@
-            @*     </div> *@
-
-            @*     <p class="hslhx-form-note">ليس لديك حساب؟ <a href="#" onclick="switchTab('register')">إنشاء حساب جديد</a></p> *@
-            @* </div> *@
+                <!-- Login Form -->
+                @{
+                    await Html.RenderPartialAsync("Login", Model.Login);
+                }
 
             <!-- Register Form -->
-            <div id="register-form" class="hslhx-tab-content">
-                    <form asp-action="Register" asp-controller="Account" method="post">
-                    <div class="hslhx-form-group">
-                        <label for="Register.FullName">الاسم الكامل</label>
-                            <input asp-for="Register.FullName"  class="hslhx-form-control" >
-                            <span asp-validation-for="Register.FullName" class="text-danger"></span>
-                    </div>
-                    <div class="hslhx-form-group">
-                        <label for="Register.EmailAdress">البريد الإلكتروني</label>
-                            <input asp-for="Register.EmailAdress"  class="hslhx-form-control" >
-                            <span asp-validation-for="Register.EmailAdress" class="text-danger"></span>
-                    </div>
-                    <div class="hslhx-form-group">
-                            <label for="Register.Password">كلمة المرور</label>
-                        <div class="hslhx-password-field">
-                                <input asp-for="Register.Password"  id="register-password" class="hslhx-form-control">
-                            <button type="button" class="hslhx-toggle-password" onclick="togglePassword('register-password')">👁️</button>
-                                <span asp-validation-for="Register.Password" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="hslhx-form-group">
-                            <label for="Register.ConfirmPassword">تأكيد كلمة المرور</label>
-                        <div class="hslhx-password-field">
-                                <input asp-for="Register.ConfirmPassword"  id="register-confirm-password" class="hslhx-form-control" >
-                            <button type="button" class="hslhx-toggle-password" onclick="togglePassword('register-confirm-password')">👁️</button>
-                                <span asp-validation-for="Register.ConfirmPassword" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="hslhx-form-check">
-                        <input type="checkbox" id="terms" class="hslhx-form-check-input">
-                        <label for="terms">أوافق على <a href="#" style="color: var(--primary-color);">الشروط والأحكام</a></label>
-                    </div>
-                    <button type="submit" class="hslhx-btn hslhx-btn-primary">إنشاء حساب</button>
-                </form>
-
-                <div class="hslhx-social-login">
-                    <p>أو التسجيل عبر</p>
-                    <div class="hslhx-social-buttons">
-                        <a href="#" class="hslhx-social-btn">G</a>
-                        <a href="#" class="hslhx-social-btn">f</a>
-                        <a href="#" class="hslhx-social-btn">t</a>
-                    </div>
-                </div>
-
-                <p class="hslhx-form-note">لديك حساب بالفعل؟ <a href="#" onclick="switchTab('login')">تسجيل الدخول</a></p>
-            </div>
+                @{
+                    await Html.RenderPartialAsync("Register", Model.Register);
+                }
         </div>
     </div>
 </div>

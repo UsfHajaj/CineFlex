@@ -22,5 +22,6 @@ namespace ETickets.Data.ViewModels
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Password not matched")]
         public string ConfirmPassword { get; set; }
+        public bool RememberMe { get; set; }
     }
 }

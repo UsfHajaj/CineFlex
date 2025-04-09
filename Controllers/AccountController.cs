@@ -23,7 +23,7 @@ namespace ETickets.Controllers
         public async Task<IActionResult> Users()
         {
             var users = await _context.Users.ToListAsync();
-            return View(users);
+            return View(users); 
         }
 
         public IActionResult Auth()
@@ -31,255 +31,113 @@ namespace ETickets.Controllers
             var response = new AuthViewModel();
             return View(response);
         }
-
-
-
         [HttpPost]
-        public async Task<IActionResult> Login([Bind(Prefix = "Login")] AuthViewModel authVM)
+        public async Task<IActionResult> Login(LoginVM loginVM)
         {
             if (!ModelState.IsValid)
-                return View("Auth", authVM);
+            {
+                var model = new AuthViewModel
+                {
+                    Login = loginVM,
+                    Register = new RegisterVM(),
 
-            var loginVM = authVM.Login;
+                };
+                return View("Auth", model);
+            }
+
             var user = await _userManager.FindByEmailAsync(loginVM.EmailAdress);
 
             if (user != null)
             {
                 var passwordCheck = await _userManager.CheckPasswordAsync(user, loginVM.Password);
+
                 if (passwordCheck)
                 {
-                    var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
+                    var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, loginVM.RememberMe, lockoutOnFailure: false);
+
                     if (result.Succeeded)
+                    {
                         return RedirectToAction("Index", "Movie");
+                    }
                 }
-                TempData["Error"] = "Wrong Credentials, Please tryy again!";
-                return View("Auth", authVM);
+                ModelState.AddModelError("", "Wrong Credentials, Please try again!");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Wrong Credentials, Please try again!");
             }
 
-            TempData["Error"] = "Wrong credentials. Please try again!";
-            return View("Auth", authVM);
+            var failModel = new AuthViewModel
+            {
+                Login = loginVM,
+                Register = new RegisterVM(),
+                
+            };
+
+            return View("Auth", failModel);
         }
-
-
-
-
-
-        //public IActionResult Login()
-        //{
-        //    var respone = new LoginVM();
-        //    return View(respone);
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> Login(LoginVM loginVM)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return View(loginVM);
-
-        //    var user = await _userManager.FindByEmailAsync(loginVM.EmailAdress);
-
-        //    if (user != null)
-        //    {
-        //        var passwordCheck = await _userManager.CheckPasswordAsync(user, loginVM.Password);
-
-        //        if (passwordCheck)
-        //        {
-        //            var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
-
-        //            if (result.Succeeded)
-        //            {
-        //                return RedirectToAction("Index", "Movies");
-        //            }
-        //        }
-        //        TempData["Error"] = "Wrong Credentials, Please tryy again!";
-
-        //        return View(loginVM);
-        //    }
-
-        //    TempData["Error"] = "Wrong Credentials, Please tryy again!";
-
-        //    return View(loginVM);
-        //}
-
-
-
-
-
-
-
-
-
-
-
-
         [HttpPost]
-        public async Task<IActionResult> Register(AuthViewModel authVM)
+        public async Task<IActionResult> Register(RegisterVM registerVM)
         {
             if (!ModelState.IsValid)
-                return View("Auth", authVM);
-
-            var registerVM = authVM.Register;
-
-            var user = await _userManager.FindByEmailAsync(registerVM.EmailAdress);
-            if (user != null)
             {
-                TempData["Error"] = "This email is already used.";
-                return View("Auth", authVM);
+                var model = new AuthViewModel
+                {
+                    Login = new LoginVM(),
+                    Register = registerVM,
+
+                };
+                return View("Auth", model);
             }
 
-            var newUser = new ApplicationUser
+            var user = await _userManager.FindByEmailAsync(registerVM.EmailAdress);
+
+            if (user != null)
+            {
+                ModelState.AddModelError("", "This email is already used");
+
+                var model = new AuthViewModel
+                {
+                    Login = new LoginVM(),
+                    Register = registerVM,
+
+                };
+                return View("Auth", model);
+            }
+
+            var newUser = new ApplicationUser()
             {
                 FullName = registerVM.FullName,
                 Email = registerVM.EmailAdress,
-                UserName = registerVM.EmailAdress
+                UserName = registerVM.EmailAdress,
             };
 
-            var result = await _userManager.CreateAsync(newUser, registerVM.Password);
-            if (!result.Succeeded)
+            var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
+
+            if (!newUserResponse.Succeeded)
             {
-                foreach (var error in result.Errors)
+                foreach (var error in newUserResponse.Errors)
                     ModelState.AddModelError("", error.Description);
 
-                return View("Auth", authVM);
+                var model = new AuthViewModel
+                {
+                    Login = new LoginVM(),
+                    Register = registerVM,
+                    
+                };
+                return View("Auth", model);
             }
 
-            //await _userManager.AddToRoleAsync(newUser, UserRoles.User);
-            return RedirectToAction("Index", "Movie"); // أو عرض رسالة تسجيل مكتمل
+            await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+            await _signInManager.SignInAsync(newUser, isPersistent: registerVM.RememberMe);
+            return RedirectToAction("Index", "Movie");
         }
 
-
-        //public IActionResult Register()
-        //{
-        //    var respone = new RegisterVM();
-        //    return View(respone);
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> Register(RegisterVM registerVM)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return View(registerVM);
-
-        //    var user = await _userManager.FindByEmailAsync(registerVM.EmailAdress);
-
-        //    if (user != null)
-        //    {
-        //        ModelState.AddModelError("", "This Email is already used");
-
-        //        return View(registerVM);
-        //    }
-
-        //    var newUser = new ApplicationUser()
-        //    {
-        //        FullName = registerVM.FullName,
-        //        Email = registerVM.EmailAdress,
-        //        UserName = registerVM.EmailAdress,
-        //    };
-
-        //    var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
-
-        //    if (!newUserResponse.Succeeded)
-        //    {
-        //        foreach (var error in newUserResponse.Errors)
-        //            ModelState.AddModelError("", error.Description);
-
-        //            return View(registerVM);
-
-        //    }
-
-        //    return RedirectToAction("Index", "movie");
-
-
-
-        //}
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Movies");
+            return RedirectToAction("Auth", "Account");
         }
-
-
-
-
-
-
-
-
-
-
-
-
-        //[HttpPost]
-        //public async Task<IActionResult> Auth(AuthViewModel authVM)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (authVM.Login != null && !string.IsNullOrEmpty(authVM.Login.EmailAdress))
-        //        {
-        //            // تسجيل الدخول
-        //            var user = await _userManager.FindByEmailAsync(authVM.Login.EmailAdress);
-        //            if (user != null)
-        //            {
-        //                var result = await _signInManager.PasswordSignInAsync(user, authVM.Login.Password, false, false);
-        //                if (result.Succeeded)
-        //                {
-        //                    return RedirectToAction("Index", "Movie");
-        //                }
-        //                ModelState.AddModelError("", "Invalid login attempt.");
-        //            }
-        //            else
-        //            {
-        //                ModelState.AddModelError("", "Email not found.");
-        //            }
-        //        }
-
-        //        if (authVM.Register != null && !string.IsNullOrEmpty(authVM.Register.EmailAdress))
-        //        {
-        //            // تسجيل جديد
-        //            var user = await _userManager.FindByEmailAsync(authVM.Register.EmailAdress);
-        //            if (user != null)
-        //            {
-        //                ModelState.AddModelError("", "This Email is already used.");
-        //            }
-        //            else
-        //            {
-        //                var newUser = new ApplicationUser()
-        //                {
-        //                    FullName = authVM.Register.FullName,
-        //                    Email = authVM.Register.EmailAdress,
-        //                    UserName = authVM.Register.EmailAdress,
-        //                };
-
-        //                var result = await _userManager.CreateAsync(newUser, authVM.Register.Password);
-        //                if (result.Succeeded)
-        //                {
-        //                    return RedirectToAction("Index", "Movie");
-        //                }
-        //                else
-        //                {
-        //                    foreach (var error in result.Errors)
-        //                    {
-        //                        ModelState.AddModelError("", error.Description);
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    return View(authVM);
-        //}
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

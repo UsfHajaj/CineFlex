@@ -1,0 +1,139 @@
+﻿@model ShoppingCartVM
+
+@{
+    ViewData["Title"] = "Shopping cart summary";
+    Layout = "_SecLayout";
+}
+
+<!-- Cart Section -->
+<section class="cart-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8" style="margin: 0 auto; max-width: 800px;">
+                <div class="card2">
+                    <div class="card-header">
+                        <h2 class="card-title">ملخص عربة التسوق</h2>
+                    </div>
+                    <div class="card-body">
+                        <!-- Cart with items -->
+                        <div class="table-container" style="display: @(Model.ShoppingCartAmount <= 0 ? "none" : "block")">
+                            <table class="table table-bordered table-hover  ">
+                                <thead>
+                                    <tr>
+                                        <th>الكمية</th>
+                                        <th>الفيلم</th>
+                                        <th>السعر</th>
+                                        <th>المجموع الفرعي</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ShoppingCart.ShoppingCartItems)
+                                    {
+                                        <!-- Cart Item 1 -->
+                                        <tr>
+                                            <td>@item.Amount</td>
+                                            <td><a href="#" class="movie-title">@item.Movie.Title</a></td>
+                                            <td>@item.Movie.Price.ToString("c")</td>
+                                            <td>@((item.Amount * item.Movie.Price).ToString("c"))</td>
+                                            <td>
+                                                <div class="cart-actions">
+                                                    <a class="cart-btn btn-danger" asp-controller="Orders" 
+                                                    asp-action="RemoveItemFromShoppingCart"
+                                                       asp-route-id="@item.Movie.Id">-</a>
+                                                    |
+                                                    <a class="cart-btn btn-success" asp-controller="Orders" 
+                                                    asp-action="AddItemToShoppingCart"
+                                                       asp-route-id="@item.Movie.Id">+</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td>@Model.ShoppingCartAmount</td>
+                                        <td><b>المجموع الكلي:</b></td>
+                                        <td class="cart-total">@Model.ShoppingCartTotal.ToString("c")</td>
+                                        
+                                        <td colspan="2"></td>
+                                        
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <!-- Empty cart state - hidden by default -->
+                        <div class="empty-cart" style="display: @(Model.ShoppingCartAmount > 0 ? "none" : "block")">
+                            <div class="empty-cart-icon">🛒</div>
+                            <h3>عربة التسوق فارغة</h3>
+                            <p>لم تضف أي أفلام إلى عربة التسوق بعد</p>
+                            <a asp-action="Index" asp-controller="Movie" class="btn btn-outline-primary">استعرض الأفلام</a>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group">
+                            <!-- PayPal Button Placeholder -->
+                            <div id="paypal-btn" style="min-height: 40px; min-width: 150px; background-color: #ffc439; border-radius: 25px; display: flex; align-items: center;cursor:pointer; justify-content: center; color: #003087; font-weight: bold;"></div>
+
+                            <span style="width: 10px;"></span>
+
+                            <a asp-action="Index" asp-controller="Movie" class="btn btn-outline-success">
+                                إضافة المزيد من الأفلام
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+    <script>
+
+        let _total = @Html.Raw(Model.ShoppingCartTotal);
+
+        paypal.Button.render({
+            //Configure environment
+            env: 'sandbox',
+            client: {
+                sandbox: 'ASu8Q_6TXau29JZLnTOeYZqosLKoeXzWLiGtg7khybbxXtxD4zXJug4shEhvBajldd2btIh2sJ8B9amx',
+            },
+
+            //Customize button
+            locale: 'en_US',
+            style: {
+                size: 'small',
+                color: 'gold',
+                shape: 'pill'
+            },
+            commit: true,
+
+            //Set up a payment
+            payment: function (data, actions) {
+                return actions.payment.create({
+                    transactions: [{
+                        amount: {
+                            total: _total,
+                            currency: 'USD'
+                        }
+                    }]
+                });
+            },
+
+            //Execute the payment
+            onAuthorize: function (data, actions) {
+                return actions.payment.execute().then(function () {
+                    var url = '@Url.Action("CompleteOrder", "Orders", new { })';
+                    console.log(url);
+                    window.location.href = url;
+                });
+            }
+
+        }, '#paypal-btn')
+    </script>
+}

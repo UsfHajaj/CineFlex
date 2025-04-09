@@ -1,7 +1,9 @@
 ﻿using ETickets.Data;
 using ETickets.Data.DTOs;
 using ETickets.Data.Services;
+using ETickets.Data.Static;
 using ETickets.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -15,16 +17,19 @@ namespace ETickets.Controllers
         {
             _services = services;
         }
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Index()
         {
             var data = await _services.GetAllAsync();
             return View(data);
         }
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Create(ActorDto actorDto)
         {
             if (!ModelState.IsValid)
@@ -41,6 +46,7 @@ namespace ETickets.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var actor = await _services.GetByIdAsync(id);
@@ -51,6 +57,7 @@ namespace ETickets.Controllers
             return View(actor);
             
         }
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(int id)
         {
             var actor = await _services.GetByIdAsync(id);
@@ -61,6 +68,7 @@ namespace ETickets.Controllers
             return View(actor);
         }
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit([FromRoute] int id,ActorDto actorDto)
         {
             if (!ModelState.IsValid)
@@ -81,6 +89,7 @@ namespace ETickets.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Delete(int id)
         {
             var actor = await _services.GetByIdAsync(id);

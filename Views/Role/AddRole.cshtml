@@ -1,0 +1,23 @@
+﻿@model RoleViewModel
+
+@{
+    ViewData["Title"] = "AddRole";
+    Layout = "_SecLayout";
+}
+
+
+<div id="create-role-form" class="hslhx-tab-content active">
+    <form asp-action="SaveRole" method="post">
+        <div class="hslhx-form-group">
+            <label asp-for="RoleName">اسم الدور</label>
+            <input asp-for="RoleName" class="hslhx-form-control" placeholder="أدخل اسم الدور">
+            <span asp-validation-for="RoleName" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="hslhx-btn hslhx-btn-primary">إنشاء</button>
+    </form>
+
+    <p class="hslhx-form-note">
+        <a asp-action="Index">الرجوع للقائمة</a>
+    </p>
+</div>

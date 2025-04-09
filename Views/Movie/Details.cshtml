@@ -36,8 +36,12 @@
         </div>
 
         <div class="movie-buttons">
-            <a class="btn btn-primary" asp-controller="Orders" asp-action="AddToCart" asp-route-id="@Model.Id">Add to Cart</a>
-            <a class="btn btn-secondary" asp-controller="Orders" asp-action="OrderNow" asp-route-id="@Model.Id">Order Now</a>
+            <a class="btn btn-primary" asp-controller="Orders"
+               asp-action="AddItemToShoppingCart"
+               asp-route-id="@Model.Id">Add to Cart</a>
+            <a class="btn btn-secondary" asp-controller="Orders"
+               asp-action="AddItemToShoppingCart"
+               asp-route-id="@Model.Id">Order Now</a>
         </div>
     </div>
 </div>

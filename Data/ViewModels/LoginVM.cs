@@ -12,5 +12,7 @@ namespace ETickets.Data.ViewModels
         [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        [Display(Name = "تذكرني")]
+        public bool RememberMe { get; set; }
     }
 }

@@ -19,17 +19,20 @@
             <div class="navbar">
                 <a class="logo" asp-action="Index" asp-controller="Movie">CineFlex</a>
                 <div class="nav-links">
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-gear"></i> اداره
-                        </a>
-                        <ul class="dropdown-menu DWNavBar" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item bg-transparent" asp-controller="Cinema" asp-action="Index"><i class="bi bi-camera-reels"></i> Cinemas</a></li>
-                            <li><a class="dropdown-item bg-transparent" asp-controller="Producer" asp-action="Index"><i class="bi bi-headset"></i> Producers</a></li>
-                            <li><a class="dropdown-item bg-transparent" asp-controller="Actor" asp-action="Index"><i class="bi bi-person-square"></i> Actors</a></li>
-                        </ul>
-                    </div>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-gear"></i> اداره
+                            </a>
+                            <ul class="dropdown-menu DWNavBar" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item bg-transparent" asp-controller="Cinema" asp-action="Index"><i class="bi bi-camera-reels"></i> Cinemas</a></li>
+                                <li><a class="dropdown-item bg-transparent" asp-controller="Producer" asp-action="Index"><i class="bi bi-headset"></i> Producers</a></li>
+                                <li><a class="dropdown-item bg-transparent" asp-controller="Actor" asp-action="Index"><i class="bi bi-person-square"></i> Actors</a></li>
+                            </ul>
+                        </div>
+                    }
 
                     <a asp-action="Index" asp-controller="Movie">الرئيسية</a>
                     <a asp-action="Index" asp-controller="Movie">الأفلام</a>
@@ -40,7 +43,35 @@
                         <input type="text" name="searchTerm" class="search-input" placeholder="ابحث هنا...">
                         <button type="submit" class="search-icon search-btn"><i class="bi bi-search"></i></button>
                     </form>
-                    <div class="user-profile">👤</div>
+                    <div class="nav-item dropdown user-profile">
+                        <a class="nav-link text-white" href="#" id="userDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                            👤 
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            
+                            
+                            @if (User.Identity != null && User.Identity.IsAuthenticated)
+                            {
+                                <li><a class="dropdown-item bg-transparent text-white">@User.Identity?.Name</a></li>
+                                if(User.Identity.Name =="Admin")
+                                {
+                                    <li><a class="dropdown-item bg-transparent text-white" asp-controller="Role" asp-action="AddRole">اضافه رول</a></li>
+                                }
+                                <li>
+                                    <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline text-center">
+                                        <button type="submit" class="dropdown-item bg-transparent text-white border-0">تسجيل الخروج</button>
+                                    </form>
+                                </li>
+                                
+                            }
+                            else
+                            {
+                                <li><a class="dropdown-item bg-transparent text-white" asp-controller="Account" asp-action="Auth">تسجيل الدخول</a></li>
+                                <li><a class="dropdown-item bg-transparent text-white" asp-controller="Account" asp-action="Auth">إنشاء حساب</a></li>
+                            }
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
