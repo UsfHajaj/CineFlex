@@ -1,6 +1,6 @@
-# e-Ticket Movie Booking System
+# CineFlex Movie Booking System
 
-Welcome to the e-Ticket Movie Booking System project! This web application allows users to browse and book tickets for movies, manage movie data and provides an admin panel to handle movie, cinema, actor, and producer information.
+Welcome to the CineFlex Movie Booking System project! This web application allows users to browse and book tickets for movies, manage movie data and provides an admin panel to handle movie, cinema, actor, and producer information.
 
 ## Table of Contents
 
@@ -12,7 +12,7 @@ Welcome to the e-Ticket Movie Booking System project! This web application allow
 
 ## Getting Started
 
-To get started with the e-Ticket Movie Booking System, follow these steps:
+To get started with the CineFlex Movie Booking System, follow these steps:
 
 ### Prerequisites
 
@@ -57,3 +57,26 @@ To get started with the e-Ticket Movie Booking System, follow these steps:
    - Edit or delete existing movie, cinema, actor, and producer data.
    - Show all users that register to the app.
    - Show a list of all user's orders.
+
+## 📸 Screenshots
+
+![Image 1](Images/1.png)
+![Image 2](Images/2.png)
+![Image 3](Images/3.png)
+![Image 4](Images/4.png)
+![Image 5](Images/5.png)
+![Image 6](Images/6.png)
+![Image 7](Images/7.png)
+![Image 8](Images/8.png)
+![Image 9](Images/9.png)
+![Image 10](Images/10.png)
+![Image 11](Images/11.png)
+![Image 12](Images/12.png)
+![Image 13](Images/13.png)
+![Image 14](Images/14.png)
+![Image 15](Images/15.png)
+![Image 16](Images/16.png)
+![Image 17](Images/17.png)
+![Image 18](Images/18.png)
+![Image 19](Images/19.png)
+![Image 20](Images/20.png)
